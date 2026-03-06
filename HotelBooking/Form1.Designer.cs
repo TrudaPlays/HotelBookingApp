@@ -42,7 +42,8 @@
             labelCheckOut = new Label();
             listBookings = new ListView();
             labelMessage = new Label();
-            clearForm = new Button();
+            btnClearForm = new Button();
+            SuspendLayout();
             // 
             // btnViewBookings
             // 
@@ -160,21 +161,21 @@
             labelMessage.Size = new Size(0, 25);
             labelMessage.TabIndex = 13;
             // 
-            // clearForm
+            // btnClearForm
             // 
-            clearForm.Location = new Point(840, 348);
-            clearForm.Name = "clearForm";
-            clearForm.Size = new Size(112, 34);
-            clearForm.TabIndex = 14;
-            clearForm.Text = "Clear Form";
-            clearForm.UseVisualStyleBackColor = true;
+            btnClearForm.Location = new Point(840, 348);
+            btnClearForm.Name = "btnClearForm";
+            btnClearForm.Size = new Size(112, 34);
+            btnClearForm.TabIndex = 14;
+            btnClearForm.Text = "Clear Form";
+            btnClearForm.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1008, 494);
-            Controls.Add(clearForm);
+            Controls.Add(btnClearForm);
             Controls.Add(labelMessage);
             Controls.Add(listBookings);
             Controls.Add(checkOutTime);
@@ -211,6 +212,6 @@
         private Label labelCheckOut;
         private ListView listBookings;
         private Label labelMessage;
-        private Button clearForm;
+        private Button btnClearForm;
     }
 }

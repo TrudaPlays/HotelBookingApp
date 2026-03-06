@@ -1,33 +1,62 @@
 ﻿using System;
+
 namespace HotelBooking
 {
     public sealed class Booking
     {
-        //Public Variables Required by the assignment
+        // Properties (all public as required by the assignment)
         public string RoomNumber { get; }
         public string GuestName { get; }
         public DateTime CheckIn { get; private set; }
         public DateTime CheckOut { get; private set; }
-        public Booking(string roomNumber, string guestName, DateTime checkIn,
-        DateTime checkOut)
+
+        // Constructor with validation
+        public Booking(string roomNumber, string guestName, DateTime checkIn, DateTime checkOut)
         {
-            //Check if the roomNumber or guestName are null or whitespace and throw
-            //an exception that they are required
-        //Check if checkOut is before checkIn with <=. Throw an exception
-        //if true
-        //If they validate, assign the instance variables here:
-}
-        public void Reschedule(DateTime newIn, DateTime newOut)
+            // Validate inputs
+            if (string.IsNullOrWhiteSpace(roomNumber))
+            {
+                throw new ArgumentException("Room number is required.", nameof(roomNumber));
+            }
+
+            if (string.IsNullOrWhiteSpace(guestName))
+            {
+                throw new ArgumentException("Guest name is required.", nameof(guestName));
+            }
+
+            if (checkOut <= checkIn)
+            {
+                throw new ArgumentException("Check-out date/time must be after check-in date/time.");
+            }
+
+            // All validations passed → assign values
+            RoomNumber = roomNumber.Trim();
+            GuestName = guestName.Trim();
+            CheckIn = checkIn;
+            CheckOut = checkOut;
+        }
+
+        // Method to change booking dates (with validation)
+        public void Reschedule(DateTime newCheckIn, DateTime newCheckOut)
         {
-         //Check if the newOut DateTime is before newIn. Use <= and throw an
-        //exception if true
-        //If not, set the Check In and Check Out times to the new ones
-}
-//Create an override for ToString
-//Print according to assignment guidelines: [{RoomNumber}]
-//{CheckIn:MM/dd HH:mm
-  //  }–{CheckOut:MM/dd HH:mm
-//}
-//{ GuestName}
+            if (newCheckOut <= newCheckIn)
+            {
+                throw new ArgumentException("New check-out date/time must be after new check-in date/time.");
+            }
+
+            CheckIn = newCheckIn;
+            CheckOut = newCheckOut;
+        }
+
+        // Override ToString for nice display in ListView / ListBox
+        public override string ToString()
+        {
+            // Format matches common assignment style:
+            // [101] 03/15 14:00 – 03/18 11:00   John Smith
+
+            string dateFormat = "MM/dd HH:mm";
+            return $"[{RoomNumber}] {CheckIn.ToString(dateFormat)} – " +
+                   $"{CheckOut.ToString(dateFormat)}   {GuestName}";
+        }
     }
 }
