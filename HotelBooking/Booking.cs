@@ -55,8 +55,7 @@ namespace HotelBooking
             // [101] 03/15 14:00 – 03/18 11:00   John Smith
 
             string dateFormat = "MM/dd HH:mm";
-            return $"[{RoomNumber}] {CheckIn.ToString(dateFormat)} – " +
-                   $"{CheckOut.ToString(dateFormat)}   {GuestName}";
+            return $"[{RoomNumber}] {CheckIn.ToString(dateFormat)} – " + $"{CheckOut.ToString(dateFormat)}   {GuestName}";
         }
     }
 }

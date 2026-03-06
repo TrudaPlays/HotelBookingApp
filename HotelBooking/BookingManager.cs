@@ -10,27 +10,40 @@ namespace HotelBooking
     {
         private readonly List<Booking> _bookings = new();
         public IReadOnlyList<Booking> All() => _bookings.OrderBy(b => b.CheckIn).ToList();
-        public void Add(Booking b)
+        public void AddBooking(Booking b)
         {
-            
+            if (b == null)
+                throw new ArgumentNullException(nameof(b));
+
+            if (string.IsNullOrWhiteSpace(b.RoomNumber))
+                throw new ArgumentException("Room number is required.", nameof(b.RoomNumber));
+
+            if (string.IsNullOrWhiteSpace(b.GuestName))
+                throw new ArgumentException("Guest name is required.", nameof(b.GuestName));
+
+            if (b.CheckIn >= b.CheckOut)
+                throw new ArgumentException("Check-out must be after check-in.");
             //Call EnsureNoOverlap. If it passes, add the booking
+            EnsureNoOverlap(b.RoomNumber, b.CheckIn, b.CheckOut, except: null);
+
+            _bookings.Add(b);
         }
 
 
-        public bool Cancel(string roomNumber, string guestName)
+        public bool CancelBooking(string roomNumber, string guestName)
         {
-            //Example on how to crawl the list for a booking based on name and room
-            //number:
-
+            // Find the exact booking (case-insensitive comparison)
             var toRemove = _bookings.FirstOrDefault(b =>
-            b.RoomNumber.Equals(roomNumber, StringComparison.OrdinalIgnoreCase)
-            &&
-            b.GuestName.Equals(guestName,
-            StringComparison.OrdinalIgnoreCase));
-            //if the var is null, return false, otherwise remove the booking
-            //and return true
+                b.RoomNumber.Equals(roomNumber, StringComparison.OrdinalIgnoreCase) &&
+                b.GuestName.Equals(guestName, StringComparison.OrdinalIgnoreCase));
+
+            if (toRemove == null)
+                return false;           // not found
+
+            _bookings.Remove(toRemove);
+            return true;                // successfully cancelled
         }
-        public bool TryFind(string roomNumber, string guestName, out Booking?
+        public bool TryFindBooking(string roomNumber, string guestName, out Booking?
         booking)
         {
         /*check the entire list for that booking based on room number and guest
