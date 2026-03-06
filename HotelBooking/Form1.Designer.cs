@@ -33,20 +33,20 @@
             btnBookRoom = new Button();
             btnExit = new Button();
             labelGuestName = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            guestName = new TextBox();
+            roomNumber = new TextBox();
             labelRoomNumber = new Label();
             labelCheckIn = new Label();
-            dateTimePicker1 = new DateTimePicker();
-            dateTimePicker2 = new DateTimePicker();
+            checkInTime = new DateTimePicker();
+            checkOutTime = new DateTimePicker();
             labelCheckOut = new Label();
             listBookings = new ListView();
             labelMessage = new Label();
-            SuspendLayout();
+            clearForm = new Button();
             // 
             // btnViewBookings
             // 
-            btnViewBookings.Location = new Point(238, 263);
+            btnViewBookings.Location = new Point(267, 263);
             btnViewBookings.Name = "btnViewBookings";
             btnViewBookings.Size = new Size(211, 34);
             btnViewBookings.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             // btnCancelBooking
             // 
-            btnCancelBooking.Location = new Point(491, 263);
+            btnCancelBooking.Location = new Point(38, 326);
             btnCancelBooking.Name = "btnCancelBooking";
             btnCancelBooking.Size = new Size(169, 34);
             btnCancelBooking.TabIndex = 1;
@@ -73,7 +73,7 @@
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(548, 371);
+            btnExit.Location = new Point(840, 414);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(112, 42);
             btnExit.TabIndex = 3;
@@ -89,19 +89,19 @@
             labelGuestName.TabIndex = 4;
             labelGuestName.Text = "Guest Name";
             // 
-            // textBox1
+            // guestName
             // 
-            textBox1.Location = new Point(153, 61);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 31);
-            textBox1.TabIndex = 5;
+            guestName.Location = new Point(153, 61);
+            guestName.Name = "guestName";
+            guestName.Size = new Size(150, 31);
+            guestName.TabIndex = 5;
             // 
-            // textBox2
+            // roomNumber
             // 
-            textBox2.Location = new Point(491, 61);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(150, 31);
-            textBox2.TabIndex = 7;
+            roomNumber.Location = new Point(491, 61);
+            roomNumber.Name = "roomNumber";
+            roomNumber.Size = new Size(150, 31);
+            roomNumber.TabIndex = 7;
             // 
             // labelRoomNumber
             // 
@@ -121,19 +121,19 @@
             labelCheckIn.TabIndex = 8;
             labelCheckIn.Text = "Check In Time";
             // 
-            // dateTimePicker1
+            // checkInTime
             // 
-            dateTimePicker1.Location = new Point(185, 141);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(300, 31);
-            dateTimePicker1.TabIndex = 9;
+            checkInTime.Location = new Point(185, 141);
+            checkInTime.Name = "checkInTime";
+            checkInTime.Size = new Size(300, 31);
+            checkInTime.TabIndex = 9;
             // 
-            // dateTimePicker2
+            // checkOutTime
             // 
-            dateTimePicker2.Location = new Point(185, 197);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(300, 31);
-            dateTimePicker2.TabIndex = 11;
+            checkOutTime.Location = new Point(185, 197);
+            checkOutTime.Name = "checkOutTime";
+            checkOutTime.Size = new Size(300, 31);
+            checkOutTime.TabIndex = 11;
             // 
             // labelCheckOut
             // 
@@ -146,7 +146,7 @@
             // 
             // listBookings
             // 
-            listBookings.Location = new Point(238, 326);
+            listBookings.Location = new Point(513, 259);
             listBookings.Name = "listBookings";
             listBookings.Size = new Size(182, 146);
             listBookings.TabIndex = 12;
@@ -160,20 +160,30 @@
             labelMessage.Size = new Size(0, 25);
             labelMessage.TabIndex = 13;
             // 
+            // clearForm
+            // 
+            clearForm.Location = new Point(840, 348);
+            clearForm.Name = "clearForm";
+            clearForm.Size = new Size(112, 34);
+            clearForm.TabIndex = 14;
+            clearForm.Text = "Clear Form";
+            clearForm.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 494);
+            ClientSize = new Size(1008, 494);
+            Controls.Add(clearForm);
             Controls.Add(labelMessage);
             Controls.Add(listBookings);
-            Controls.Add(dateTimePicker2);
+            Controls.Add(checkOutTime);
             Controls.Add(labelCheckOut);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(checkInTime);
             Controls.Add(labelCheckIn);
-            Controls.Add(textBox2);
+            Controls.Add(roomNumber);
             Controls.Add(labelRoomNumber);
-            Controls.Add(textBox1);
+            Controls.Add(guestName);
             Controls.Add(labelGuestName);
             Controls.Add(btnExit);
             Controls.Add(btnBookRoom);
@@ -192,14 +202,15 @@
         private Button btnBookRoom;
         private Button btnExit;
         private Label labelGuestName;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox guestName;
+        private TextBox roomNumber;
         private Label labelRoomNumber;
         private Label labelCheckIn;
-        private DateTimePicker dateTimePicker1;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker checkInTime;
+        private DateTimePicker checkOutTime;
         private Label labelCheckOut;
         private ListView listBookings;
         private Label labelMessage;
+        private Button clearForm;
     }
 }
