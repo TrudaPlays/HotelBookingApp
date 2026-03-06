@@ -13,7 +13,7 @@ namespace HotelBooking
 {
     public partial class MainForm : Form
     {
-        private readonly BookingManager manager = new BookingManager();
+        private readonly BookingManager booking_manager = new BookingManager();
 
         public MainForm()
         {
