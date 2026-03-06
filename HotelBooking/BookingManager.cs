@@ -46,19 +46,34 @@ namespace HotelBooking
         public bool TryFindBooking(string roomNumber, string guestName, out Booking?
         booking)
         {
-        /*check the entire list for that booking based on room number and guest
-            name.
-        if the reservation exists, return the booking != null*/
-}
-/*Create a public bool IsAvailable() pass in roomNumber and DateTime
-for checkIn and checkOut
-//Use a try catch block run EnsureNoOverlap. Return true if successful,
-catch and return false if not*/
+            booking = _bookings.FirstOrDefault(b =>
+            b.RoomNumber.Equals(roomNumber, StringComparison.OrdinalIgnoreCase) &&
+            b.GuestName.Equals(guestName, StringComparison.OrdinalIgnoreCase));
+
+            return booking != null;
+        }
+        /*Create a public bool IsAvailable() pass in roomNumber and DateTime
+        for checkIn and checkOut
+        //Use a try catch block run EnsureNoOverlap. Return true if successful,
+        catch and return false if not*/
+
+        public bool IsAvailable(string roomNumber, DateTime checkIn, DateTime checkOut)
+        {
+            try
+            {
+                EnsureNoOverlap(roomNumber, checkIn, checkOut, except: null);
+                return true;   // no exception = available
+            }
+            catch (InvalidOperationException)
+            {
+                return false;  // overlap found
+            }
+        }
 
 
-//!!! Helper method for you to check if a room has an overlapping
-//visit.Do not modify
-    private void EnsureNoOverlap(string roomNumber, DateTime checkIn, DateTime checkOut, Booking? except)
+        //!!! Helper method for you to check if a room has an overlapping
+        //visit.Do not modify
+        private void EnsureNoOverlap(string roomNumber, DateTime checkIn, DateTime checkOut, Booking? except)
         {
             bool Overlaps(Booking a) => a.CheckIn < checkOut && checkIn <
             a.CheckOut;
