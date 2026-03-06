@@ -28,57 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
+            btnViewBookings = new Button();
+            btnCancelBooking = new Button();
+            btnBookRoom = new Button();
+            btnExit = new Button();
             SuspendLayout();
             // 
-            // button1
+            // btnViewBookings
             // 
-            button1.Location = new Point(449, 263);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            btnViewBookings.Location = new Point(449, 263);
+            btnViewBookings.Name = "btnViewBookings";
+            btnViewBookings.Size = new Size(211, 34);
+            btnViewBookings.TabIndex = 0;
+            btnViewBookings.Text = "View All Bookings";
+            btnViewBookings.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnCancelBooking
             // 
-            button2.Location = new Point(238, 263);
-            button2.Name = "button2";
-            button2.Size = new Size(112, 34);
-            button2.TabIndex = 1;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
+            btnCancelBooking.Location = new Point(238, 263);
+            btnCancelBooking.Name = "btnCancelBooking";
+            btnCancelBooking.Size = new Size(169, 34);
+            btnCancelBooking.TabIndex = 1;
+            btnCancelBooking.Text = "Cancel Booking";
+            btnCancelBooking.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnBookRoom
             // 
-            button3.Location = new Point(38, 263);
-            button3.Name = "button3";
-            button3.Size = new Size(112, 34);
-            button3.TabIndex = 2;
-            button3.Text = "button3";
-            button3.UseVisualStyleBackColor = true;
+            btnBookRoom.Location = new Point(38, 263);
+            btnBookRoom.Name = "btnBookRoom";
+            btnBookRoom.Size = new Size(152, 34);
+            btnBookRoom.TabIndex = 2;
+            btnBookRoom.Text = "Book Room";
+            btnBookRoom.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // btnExit
             // 
-            button4.Location = new Point(592, 378);
-            button4.Name = "button4";
-            button4.Size = new Size(112, 29);
-            button4.TabIndex = 3;
-            button4.Text = "button4";
-            button4.UseVisualStyleBackColor = true;
+            btnExit.Location = new Point(548, 371);
+            btnExit.Name = "btnExit";
+            btnExit.Size = new Size(112, 42);
+            btnExit.TabIndex = 3;
+            btnExit.Text = "Exit";
+            btnExit.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(btnExit);
+            Controls.Add(btnBookRoom);
+            Controls.Add(btnCancelBooking);
+            Controls.Add(btnViewBookings);
             Name = "MainForm";
             Text = "HotelBooking";
             ResumeLayout(false);
@@ -86,9 +86,9 @@
 
         #endregion
 
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
+        private Button btnViewBookings;
+        private Button btnCancelBooking;
+        private Button btnBookRoom;
+        private Button btnExit;
     }
 }
