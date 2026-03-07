@@ -4,7 +4,6 @@ namespace HotelBooking
 {
     public sealed class Booking
     {
-        // Properties (all public as required by the assignment)
         public string RoomNumber { get; }
         public string GuestName { get; }
         public DateTime CheckIn { get; private set; }

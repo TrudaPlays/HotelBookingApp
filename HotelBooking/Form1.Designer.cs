@@ -71,6 +71,7 @@
             btnBookRoom.TabIndex = 2;
             btnBookRoom.Text = "Book Room";
             btnBookRoom.UseVisualStyleBackColor = true;
+            btnBookRoom.Click += btnBookRoom_Click;
             // 
             // btnExit
             // 
@@ -80,6 +81,7 @@
             btnExit.TabIndex = 3;
             btnExit.Text = "Exit";
             btnExit.UseVisualStyleBackColor = true;
+            btnExit.Click += btnExit_Click;
             // 
             // labelGuestName
             // 

@@ -13,18 +13,25 @@ namespace HotelBooking
         public void AddBooking(Booking b)
         {
             if (b == null)
-                throw new ArgumentNullException(nameof(b));
+                { throw new ArgumentNullException(nameof(b)); }
 
-            if (string.IsNullOrWhiteSpace(b.RoomNumber))
-                throw new ArgumentException("Room number is required.", nameof(b.RoomNumber));
+            else if (string.IsNullOrWhiteSpace(b.RoomNumber)) //
+                { throw new ArgumentException("Room number is required.", nameof(b.RoomNumber)); }
 
-            if (string.IsNullOrWhiteSpace(b.GuestName))
-                throw new ArgumentException("Guest name is required.", nameof(b.GuestName));
+            else if (string.IsNullOrWhiteSpace(b.GuestName)) //checks for an empty textbox
+                { throw new ArgumentException("Guest name is required.", nameof(b.GuestName)); }
 
-            if (b.CheckIn >= b.CheckOut)
-                throw new ArgumentException("Check-out must be after check-in.");
+            else if (b.CheckIn >= b.CheckOut) //checks that the check in and check out dates aren't equal
+                { throw new ArgumentException("Check-out must be after check-in."); }
+
+            else if (b.CheckIn <= DateTime.Now) //checks to make sure that the checkin time isn't before the current date
+            {
+                throw new ArgumentException($"Check-In must be after {DateTime.Now}");
+            }
+            
             //Call EnsureNoOverlap. If it passes, add the booking
-            EnsureNoOverlap(b.RoomNumber, b.CheckIn, b.CheckOut, except: null);
+
+            IsAvailable(b.RoomNumber, b.CheckIn, b.CheckOut);
 
             _bookings.Add(b);
         }
@@ -52,10 +59,10 @@ namespace HotelBooking
 
             return booking != null;
         }
-        /*Create a public bool IsAvailable() pass in roomNumber and DateTime
+        /*Created a public bool IsAvailable() passes in roomNumber and DateTime
         for checkIn and checkOut
-        //Use a try catch block run EnsureNoOverlap. Return true if successful,
-        catch and return false if not*/
+        //Used a try catch block run EnsureNoOverlap. Returns true if successful,
+        catch and returns false if not*/
 
         public bool IsAvailable(string roomNumber, DateTime checkIn, DateTime checkOut)
         {
