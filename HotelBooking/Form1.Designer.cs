@@ -43,6 +43,7 @@
             listBookings = new ListView();
             labelMessage = new Label();
             btnClearForm = new Button();
+            btnRescheduleBooking = new Button();
             SuspendLayout();
             // 
             // btnViewBookings
@@ -53,6 +54,7 @@
             btnViewBookings.TabIndex = 0;
             btnViewBookings.Text = "View All Bookings";
             btnViewBookings.UseVisualStyleBackColor = true;
+            btnViewBookings.Click += btnViewBookings_Click;
             // 
             // btnCancelBooking
             // 
@@ -62,6 +64,7 @@
             btnCancelBooking.TabIndex = 1;
             btnCancelBooking.Text = "Cancel Booking";
             btnCancelBooking.UseVisualStyleBackColor = true;
+            btnCancelBooking.Click += btnCancelBooking_Click;
             // 
             // btnBookRoom
             // 
@@ -75,7 +78,7 @@
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(840, 414);
+            btnExit.Location = new Point(645, 433);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(112, 42);
             btnExit.TabIndex = 3;
@@ -149,11 +152,15 @@
             // 
             // listBookings
             // 
-            listBookings.Location = new Point(513, 259);
+            listBookings.FullRowSelect = true;
+            listBookings.GridLines = true;
+            listBookings.Location = new Point(513, 197);
+            listBookings.MultiSelect = false;
             listBookings.Name = "listBookings";
-            listBookings.Size = new Size(182, 146);
+            listBookings.Size = new Size(483, 208);
             listBookings.TabIndex = 12;
             listBookings.UseCompatibleStateImageBehavior = false;
+            listBookings.View = View.List;
             // 
             // labelMessage
             // 
@@ -165,18 +172,30 @@
             // 
             // btnClearForm
             // 
-            btnClearForm.Location = new Point(840, 348);
+            btnClearForm.Location = new Point(513, 433);
             btnClearForm.Name = "btnClearForm";
             btnClearForm.Size = new Size(112, 34);
             btnClearForm.TabIndex = 14;
             btnClearForm.Text = "Clear Form";
             btnClearForm.UseVisualStyleBackColor = true;
+            btnClearForm.Click += btnClearForm_Click;
+            // 
+            // btnRescheduleBooking
+            // 
+            btnRescheduleBooking.Location = new Point(272, 326);
+            btnRescheduleBooking.Name = "btnRescheduleBooking";
+            btnRescheduleBooking.Size = new Size(206, 34);
+            btnRescheduleBooking.TabIndex = 15;
+            btnRescheduleBooking.Text = "Reschedule Booking";
+            btnRescheduleBooking.UseVisualStyleBackColor = true;
+            btnRescheduleBooking.Click += btnRescheduleBooking_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1008, 494);
+            Controls.Add(btnRescheduleBooking);
             Controls.Add(btnClearForm);
             Controls.Add(labelMessage);
             Controls.Add(listBookings);
@@ -215,5 +234,6 @@
         private ListView listBookings;
         private Label labelMessage;
         private Button btnClearForm;
+        private Button btnRescheduleBooking;
     }
 }

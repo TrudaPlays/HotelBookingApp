@@ -12,7 +12,14 @@ namespace HotelBooking
         public IReadOnlyList<Booking> All() => _bookings.OrderBy(b => b.CheckIn).ToList();
         public void AddBooking(Booking b)
         {
-            if (b == null)
+            //Call EnsureNoOverlap via the IsAvailable method. If it passes, add the booking
+
+            if (IsAvailable(b.RoomNumber, b.CheckIn, b.CheckOut))
+            {
+                _bookings.Add(b);
+            }
+
+            else if (b == null)
                 { throw new ArgumentNullException(nameof(b)); }
 
             else if (string.IsNullOrWhiteSpace(b.RoomNumber)) //
@@ -28,12 +35,6 @@ namespace HotelBooking
             {
                 throw new ArgumentException($"Check-In must be after {DateTime.Now}");
             }
-            
-            //Call EnsureNoOverlap. If it passes, add the booking
-
-            IsAvailable(b.RoomNumber, b.CheckIn, b.CheckOut);
-
-            _bookings.Add(b);
         }
 
 
@@ -45,11 +46,16 @@ namespace HotelBooking
                 b.GuestName.Equals(guestName, StringComparison.OrdinalIgnoreCase));
 
             if (toRemove == null)
-                return false;           // not found
-
-            _bookings.Remove(toRemove);
-            return true;                // successfully cancelled
+            {
+                return false;// not found
+            }
+            else
+            {
+                _bookings.Remove(toRemove);
+                return true;// successfully cancelled
+            }
         }
+
         public bool TryFindBooking(string roomNumber, string guestName, out Booking?
         booking)
         {
@@ -75,6 +81,22 @@ namespace HotelBooking
             {
                 return false;  // overlap found
             }
+        }
+
+        //method to reschedule booking
+        public void RescheduleBooking(string roomNumber, string guestName, DateTime newCheckIn, DateTime newCheckOut)
+        {
+            // Find the booking to reschedule
+            if (!TryFindBooking(roomNumber, guestName, out Booking? booking) || booking == null)
+            {
+                throw new InvalidOperationException($"No booking found for guest '{guestName}' in room '{roomNumber}'.");
+            }
+
+            // Check for overlap with OTHER bookings (exclude this one)
+            EnsureNoOverlap(roomNumber, newCheckIn, newCheckOut, except: booking);
+
+            // If no overlap → apply the change
+            booking.Reschedule(newCheckIn, newCheckOut);
         }
 
 

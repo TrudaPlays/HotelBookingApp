@@ -50,11 +50,8 @@ namespace HotelBooking
         // Override ToString for nice display in ListView / ListBox
         public override string ToString()
         {
-            // Format matches common assignment style:
-            // [101] 03/15 14:00 – 03/18 11:00   John Smith
-
             string dateFormat = "MM/dd HH:mm";
-            return $"[{RoomNumber}] {CheckIn.ToString(dateFormat)} – " + $"{CheckOut.ToString(dateFormat)}   {GuestName}";
+            return $"[{GuestName} in room: {RoomNumber}] {CheckIn.ToString(dateFormat)} – " + $"{CheckOut.ToString(dateFormat)}";
         }
     }
 }
