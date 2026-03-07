@@ -227,11 +227,45 @@ namespace HotelBooking
                 DateTime newCheckIn = checkInTime.Value;
                 DateTime newCheckOut = checkOutTime.Value;
 
+                // Quick client-side date check (optional but improves UX)
+                if (newCheckOut <= newCheckIn)
+                {
+                    throw new ArgumentException("New check-out must be after new check-in.");
+                }
+
+                // Perform the reschedule
+                booking_manager.RescheduleBooking(room, guest, newCheckIn, newCheckOut);
+
+                // Success
+                labelMessage.Text = $"Booking for {guest} in room {room} has been rescheduled successfully.";
+                labelMessage.BackColor = Color.LightGreen;
+
+                //clears the inputs
+                roomNumber.Clear();
+                guestName.Clear();
+                checkInTime.Value = DateTime.Today;
+                checkOutTime.Value = DateTime.Today.AddDays(1);
+
+                // refreshes the list to show updated dates
+                RefreshBookingsList();
 
             }
-            catch
+            catch (ArgumentException ex)
             {
-
+                // Validation errors (missing fields, invalid dates)
+                labelMessage.Text = ex.Message;
+                labelMessage.BackColor = Color.LightPink;
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Not found or overlap
+                labelMessage.Text = ex.Message;
+                labelMessage.BackColor = Color.LightPink;
+            }
+            catch (Exception ex)
+            {
+                labelMessage.Text = "Unexpected error during reschedule: " + ex.Message;
+                labelMessage.BackColor = Color.LightPink;
             }
 
         }
