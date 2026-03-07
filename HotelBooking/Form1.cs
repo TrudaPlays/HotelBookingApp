@@ -8,6 +8,8 @@ using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.Design.AxImporter;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO;
+using File = System.IO.File;
 
 namespace HotelBooking
 {
@@ -22,6 +24,30 @@ namespace HotelBooking
             checkInTime.Format = DateTimePickerFormat.Short;
             checkOutTime.Format = DateTimePickerFormat.Short;
 
+        }
+
+        //logging file path
+        private string GetLogFilePath()
+        {
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            return Path.Combine(desktop, "log.txt");
+        }
+
+        //appending the log to the txt file
+        private void LogSuccess(string message)
+        {
+            try
+            {
+                string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string line = $"[{timestamp}] {message}{Environment.NewLine}";
+
+                string path = GetLogFilePath();
+                File.AppendAllText(path, line);
+            }
+            catch
+            {
+                // Silent fail – doesn't crash the app if desktop write fails
+            }
         }
 
         private void RefreshBookingsList()
@@ -46,14 +72,16 @@ namespace HotelBooking
                 var booking = new Booking(
                     roomNumber: roomNumber.Text,
                     guestName: guestName.Text,
-                    checkIn: checkInTime.Value,
-                    checkOut: checkOutTime.Value
+                    checkIn: checkInTime.Value.Date,
+                    checkOut: checkOutTime.Value.Date
                 );
 
                 // Attempt to add the booking – will throw on overlap or other issues
                 booking_manager.AddBooking(booking);
 
                 // Success
+                RefreshBookingsList();
+                LogSuccess($"New booking created: Room {booking.RoomNumber}, Guest {booking.GuestName}, {booking.CheckIn:yyyy-MM-dd HH:mm} – {booking.CheckOut:yyyy-MM-dd HH:mm}");
                 labelMessage.Text = "Booking added successfully!";
                 labelMessage.BackColor = Color.LightGreen;
 
@@ -62,14 +90,14 @@ namespace HotelBooking
                 guestName.Clear();
                 checkInTime.Value = DateTime.Today;
                 checkOutTime.Value = DateTime.Today.AddDays(1);
-
-                RefreshBookingsList();
+  
             }
             catch (ArgumentException ex)
             {
                 //validation fails, missing fields, invalid dates etc
                 labelMessage.Text = ex.Message;
                 labelMessage.BackColor = Color.LightPink;
+                
             }
             catch (InvalidOperationException ex)
             {
@@ -147,12 +175,14 @@ namespace HotelBooking
                     guestName.Focus();
 
                     RefreshBookingsList();
+                    LogSuccess($"Booking cancelled: Room {room}, Guest {guest}");
                 }
                 else
                 {
                     // Not found → friendly message
                     labelMessage.Text = $"No booking found for {guest} in room {room}.";
                     labelMessage.BackColor = Color.LightYellow;   // warning color, not error
+
                 }
             }
             catch (ArgumentException ex)
@@ -194,6 +224,7 @@ namespace HotelBooking
 
                 labelMessage.Text = $"Showing {bookings.Count} booking{(bookings.Count != 1 ? "s" : "")}.";
                 labelMessage.BackColor = Color.LightGreen;
+                LogSuccess($"Viewed all bookings ({bookings.Count} entries)");
             }
             catch (Exception ex)
             {
@@ -224,8 +255,8 @@ namespace HotelBooking
                 }
 
                 //new values for the rescheduled booking
-                DateTime newCheckIn = checkInTime.Value;
-                DateTime newCheckOut = checkOutTime.Value;
+                DateTime newCheckIn = checkInTime.Value.Date;
+                DateTime newCheckOut = checkOutTime.Value.Date;
 
                 // Quick client-side date check (optional but improves UX)
                 if (newCheckOut <= newCheckIn)
@@ -248,6 +279,7 @@ namespace HotelBooking
 
                 // refreshes the list to show updated dates
                 RefreshBookingsList();
+                LogSuccess($"Booking rescheduled: Room {room}, Guest {guest}, New dates {newCheckIn:yyyy-MM-dd HH:mm} – {newCheckOut:yyyy-MM-dd HH:mm}");
 
             }
             catch (ArgumentException ex)

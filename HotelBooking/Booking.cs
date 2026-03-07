@@ -23,6 +23,10 @@ namespace HotelBooking
                 throw new ArgumentException("Guest name is required.", nameof(guestName));
             }
 
+            // Force date-only
+            DateTime checkInDate = checkIn.Date;
+            DateTime checkOutDate = checkOut.Date;
+
             if (checkOut <= checkIn)
             {
                 throw new ArgumentException("Check-out date/time must be after check-in date/time.");
@@ -47,11 +51,12 @@ namespace HotelBooking
             CheckOut = newCheckOut;
         }
 
-        // Override ToString for nice display in ListView / ListBox
+        //ToString method for printing details
         public override string ToString()
         {
-            string dateFormat = "MM/dd HH:mm";
-            return $"[{GuestName} in room: {RoomNumber}] {CheckIn.ToString(dateFormat)} – " + $"{CheckOut.ToString(dateFormat)}";
+            // Date only no time
+            string dateFormat = "MM/dd/yyyy";
+            return $"[{RoomNumber}] {CheckIn.ToString(dateFormat)} – {CheckOut.ToString(dateFormat)}   {GuestName}";
         }
     }
 }

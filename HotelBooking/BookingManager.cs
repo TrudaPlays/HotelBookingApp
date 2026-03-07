@@ -28,12 +28,17 @@ namespace HotelBooking
             else if (string.IsNullOrWhiteSpace(b.GuestName)) //checks for an empty textbox
                 { throw new ArgumentException("Guest name is required.", nameof(b.GuestName)); }
 
-            else if (b.CheckIn >= b.CheckOut) //checks that the check in and check out dates aren't equal
+            else if (b.CheckIn.Date >= b.CheckOut.Date) //checks that the check in and check out dates aren't equal
                 { throw new ArgumentException("Check-out must be after check-in."); }
 
-            else if (b.CheckIn <= DateTime.Now) //checks to make sure that the checkin time isn't before the current date
+            else if (b.CheckIn <= DateTime.Now.Date) //checks to make sure that the checkin time isn't before the current date
             {
-                throw new ArgumentException($"Check-In must be after {DateTime.Now}");
+                throw new ArgumentException($"Check-In must be after {DateTime.Now.Date}");
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    $"Room {b.RoomNumber} already booked {b.CheckIn:MM/dd}–{b.CheckOut:MM/dd}.");
             }
         }
 
@@ -93,10 +98,18 @@ namespace HotelBooking
             }
 
             // Check for overlap with OTHER bookings (exclude this one)
-            EnsureNoOverlap(roomNumber, newCheckIn, newCheckOut, except: booking);
+            if (IsAvailable(roomNumber, newCheckIn, newCheckOut))
+            {
+                // If no overlap → apply the change
+                booking.Reschedule(newCheckIn, newCheckOut);
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    $"Room {roomNumber} already booked {newCheckIn:MM/dd}–{newCheckOut:MM/dd}.");
+            }
 
-            // If no overlap → apply the change
-            booking.Reschedule(newCheckIn, newCheckOut);
+
         }
 
 
@@ -111,10 +124,11 @@ namespace HotelBooking
                 if (except != null && ReferenceEquals(existing, except)) continue;
                 if (!existing.RoomNumber.Equals(roomNumber,
                 StringComparison.OrdinalIgnoreCase)) continue;
+
                 if (Overlaps(existing))
                 {
                     throw new InvalidOperationException(
-                    $"Room {roomNumber} already booked {existing.CheckIn:MM/dd/HH:mm}–{existing.CheckOut:MM/dd HH:mm}.");
+                    $"Room {roomNumber} already booked {existing.CheckIn:MM/dd}–{existing.CheckOut:MM/dd}.");
                 }
             }
         }
