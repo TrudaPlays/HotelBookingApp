@@ -194,6 +194,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.HotPink;
             ClientSize = new Size(1008, 494);
             Controls.Add(btnRescheduleBooking);
             Controls.Add(btnClearForm);
